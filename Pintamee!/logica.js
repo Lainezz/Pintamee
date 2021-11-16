@@ -169,6 +169,11 @@ function activarPintura(){
 	console.log(this);
 	if(!pintarActivado){
 		document.querySelector("#pincel").innerHTML = "PINCEL ACTIVADO...";
+		//Primero eliminamos el color que hay en la celda
+		if(this.classList.length>0){
+			this.removeAttribute("class");
+		}
+
 		this.classList.add(colorActivo);
 		pintarActivado = true;
 	}else{
@@ -190,7 +195,7 @@ function pintar(){
 
 	if(pintarActivado){
 		if(this.classList.length>0){
-			this.classList.length =0;
+			this.removeAttribute("class");
 		}
 		this.classList.add(colorActivo);
 	}
