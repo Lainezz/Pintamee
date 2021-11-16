@@ -2,7 +2,13 @@
 // Función getNode -> Para ahorrarnos el tener que escribir
 // document.getElementById("elemento") todo el rato.
 /////////////////////////////////////////////////////////
-
+function getNode(nodo, all=false){
+	if(all){
+		return document.querySelectorAll(nodo);
+	} else {
+		return document.querySelector(nodo);
+	}
+}
 	
 /////////////////////////////////////////////////////////
 // Función cross-browser para añadir Eventos
@@ -28,7 +34,7 @@ function iniciar(){
 	// que cambiará el color activo (asociado a una clase css) y adicionalmente,
 	// eliminará la clase css "seleccionado" del elemento que la tenía y se la
 	// añadirá al elemento en el que hemos clicado.
-	var filaColores = document.querySelectorAll("#paleta tr:first-child td");
+	var filaColores = getNode("#paleta tr:first-child td", true);
 	console.log(filaColores);
 	for(let i=0;i<filaColores.length;i++){
 		filaColores[i].addEventListener("click", detectarColorPaleta);
@@ -52,15 +58,13 @@ function iniciar(){
 	// nuestra variable global pintarActivado.
 	// Para colorear la celda, basta con añadir la clase que tenemos almacenada
 	// en colorActivo a la lista de clases de la celda.
-	var tablero = document.querySelectorAll("#tablero tr td");
+	var tablero = getNode("#tablero tr td", true);
 	for(let i=0; i<tablero.length; i++){
 		tablero[i].addEventListener("click", activarPintura);
-		
 	}
 
 	for(let i=0; i<tablero.length; i++){
 		tablero[i].addEventListener("mouseover", pintar);
-		
 	}
 	
 
@@ -88,7 +92,7 @@ function dibujarTableroDibujo(){
 	//	1. un borde de 1px por ejemplo
 	//	2. un id = tablero
 	// 	3. una lista de clases que contenga al menos "tablerodibujo"
-	var divZonaDibujo = document.querySelector("#zonaDibujo");
+	var divZonaDibujo = getNode("#zonaDibujo");
 	var elemTable = document.createElement("table");
 	elemTable.setAttribute("id", "tablero");
 	elemTable.classList.add("tablerodibujo");
@@ -168,7 +172,7 @@ function activarPintura(){
 	// 3º Pintamos la celda donde se haya hecho click (opcional)
 	console.log(this);
 	if(!pintarActivado){
-		document.querySelector("#pincel").innerHTML = "PINCEL ACTIVADO...";
+		getNode("#pincel").innerHTML = "PINCEL ACTIVADO...";
 		//Primero eliminamos el color que hay en la celda
 		if(this.classList.length>0){
 			this.removeAttribute("class");
@@ -177,7 +181,7 @@ function activarPintura(){
 		this.classList.add(colorActivo);
 		pintarActivado = true;
 	}else{
-		document.querySelector("#pincel").innerHTML = "PINCEL DESACTIVADO...";
+		getNode("#pincel").innerHTML = "PINCEL DESACTIVADO...";
 		pintarActivado = false;
 	}
 	
@@ -204,7 +208,7 @@ function pintar(){
 
 function reset(){
 	
-	var tablero = document.querySelectorAll("#tablero tr td");
+	var tablero = getNode("#tablero tr td", true);
 	if(tablero.length >0) console.log(tablero.length);
 	for(let i=0; i<tablero.length; i++){
 		if(tablero[i].hasAttribute("class")){
@@ -216,7 +220,7 @@ function reset(){
 function activarPincel(){
 	
 	if(!pintarActivado){
-		document.querySelector("#pincel").innerHTML = "PINCEL ACTIVADO...";
+		getNode("#pincel").innerHTML = "PINCEL ACTIVADO...";
 		pintarActivado = true;
 	}
 }
@@ -224,7 +228,7 @@ function activarPincel(){
 function desactivarPincel(){
 	
 	if(pintarActivado){
-		document.querySelector("#pincel").innerHTML = "PINCEL DESACTIVADO...";
+		getNode("#pincel").innerHTML = "PINCEL DESACTIVADO...";
 		pintarActivado = false;
 	}
 }
@@ -237,5 +241,5 @@ var colorActivo="";
 var pintarActivado=false;
 // Cuando el documento esté cargado llamamos a la función iniciar().
 /////////////////////////////////////////////////////////
-window.load = iniciar();
+window.onload = iniciar();
 /////////////////////////////////////////////////////////
